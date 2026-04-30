@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kalathmi Pathiraja | Economics (Hons) • Data • Research</title>
+    <meta
+      name="description"
+      content="Kalathmi Pathiraja. BA in Economics (Honours) student at the University of Alberta. Data analysis, research, and projects."
+    />
+
+    <meta property="og:title" content="Kalathmi Pathiraja | Portfolio" />
+    <meta
+      property="og:description"
+      content="Economics Honours student • Data analysis • Research. Projects, experience, and an interactive macro model."
+    />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script defer src="./main.js"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a class="brand brand--initial" href="#top" aria-label="Go to top">
+          <span class="brand__initial">K.</span>
+        </a>
+
+        <nav id="nav" class="nav nav--center" aria-label="Primary">
+          <a href="#projects">Work</a>
+          <a href="#about">About</a>
+          <a href="#model">Model</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="menu-btn mono nav-toggle" type="button" aria-expanded="false" aria-controls="nav">
+          <span>Menu</span>
+          <span aria-hidden="true">≡</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section id="top" class="hero section">
+        <div class="hero__bg" aria-hidden="true">
+          <div class="hero__dots hero__dots--tl"></div>
+          <div class="hero__dots hero__dots--tr"></div>
+          <div class="hero__dots hero__dots--bl"></div>
+          <div class="hero__blob hero__blob--a"></div>
+          <div class="hero__blob hero__blob--b"></div>
+          <div class="hero__blob hero__blob--c"></div>
+        </div>
+
+        <div class="container hero__inner">
+          <div class="hero__follow mono" aria-label="Follow links">
+            <div class="hero__follow-inner" aria-hidden="true">
+              <div class="hero__follow-label">Follow</div>
+              <div class="hero__follow-links">
+                <a href="#" class="social" aria-label="Behance" data-behance-link-rail>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path
+                      fill="currentColor"
+                      d="M8.2 11.3c1.2 0 2-.7 2-1.8 0-1.2-.8-1.8-2.2-1.8H4V11.3h4.2Zm.2 5c1.5 0 2.5-.7 2.5-2 0-1.4-1-2-2.7-2H4v4h4.4Zm6.6-9.6h4.1V5.4H15v1.3Zm2.2 10.2c1.2 0 2-.6 2.3-1.6h2.1c-.5 2.4-2.4 3.7-4.5 3.7-3.2 0-5.2-2.2-5.2-5.3 0-3 2.1-5.3 5.2-5.3 3.5 0 5.2 2.9 4.8 6.1h-7.8c.1 1.5 1.1 2.4 3.1 2.4Zm2.2-4c-.2-1.3-1-2.2-2.5-2.2-1.6 0-2.6.8-2.8 2.2h5.3ZM2 3h6c2.7 0 4.3 1.4 4.3 3.6 0 1.5-.7 2.6-2 3.1v.1c1.8.4 2.8 1.8 2.8 3.6 0 2.6-2.2 4.1-5.2 4.1H2V3Z"
+                    />
+                  </svg>
+                </a>
+                <a href="#" class="social" aria-label="LinkedIn" data-linkedin-link-rail>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path
+                      fill="currentColor"
+                      d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.65-1.85 3.39-1.85 3.63 0 4.3 2.39 4.3 5.49v6.25ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"
+                    />
+                  </svg>
+                </a>
+                <a href="#" class="social" aria-label="Twitter/X" data-twitter-link-rail>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path
+                      fill="currentColor"
+                      d="M18.9 2H22l-6.8 7.8L23.2 22h-6.4l-5-6.3L6 22H2.8l7.3-8.4L1 2h6.6l4.5 5.7L18.9 2Zm-1.1 18h1.7L6.6 3.9H4.8L17.8 20Z"
+                    />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero__layout">
+            <div class="hero__left">
+              <div class="hero__hello mono">
+                <span class="hero__dash" aria-hidden="true"></span>
+                <span>Hi, I’m Kalathmi</span>
+              </div>
+
+              <h1 class="hero__headline">
+                Kalathmi
+                <br />
+                Pathiraja
+              </h1>
+
+              <div class="hero__tabs">
+                <button class="tab is-active" type="button" data-tab="research">Research</button>
+                <button class="tab" type="button" data-tab="analysis">Analysis</button>
+                <button class="tab" type="button" data-tab="forecasting">Forecasting</button>
+              </div>
+
+              <div class="hero__filters" aria-label="Industry filters">
+                <button class="pill is-active" type="button">Macroeconomics</button>
+                <button class="pill" type="button">Forecasting</button>
+                <button class="pill" type="button">Energy</button>
+                <button class="pill" type="button">Policy</button>
+                <button class="pill" type="button">Geospatial</button>
+              </div>
+            </div>
+
+            <div class="hero__right">
+              <div class="hero__bio">
+                <div class="hero__bio-top">
+                  <span class="hero__dash" aria-hidden="true"></span>
+                  <span class="mono hero__bio-kicker">
+                    BA in Economics (Honours), University of Alberta. Entering 4th year in the fall.
+                  </span>
+                </div>
+                <p class="hero__bio-text">
+                  I build analysis that is clear, decision-ready, and grounded in data. My interests sit at the
+                  intersection of macroeconomics, forecasting, and applied research for real-world outcomes.
+                </p>
+
+                <div class="hero__code mono" aria-hidden="true">
+                  <div><span class="hero__code-k">field</span> = <span class="hero__code-v">"macro"</span></div>
+                  <div><span class="hero__code-k">tooling</span> = <span class="hero__code-v">["python","r","sql","power bi"]</span></div>
+                  <div><span class="hero__code-k">status</span> = <span class="hero__code-v" data-rotator></span></div>
+                </div>
+
+                <div class="hero__actions">
+                  <a class="btn btn--primary" href="#projects">View work</a>
+                  <a class="btn btn--ghost" href="#contact">Get in touch</a>
+                </div>
+
+                <div class="hero__status" aria-label="Availability status">
+                  <span class="hero__status-dot" aria-hidden="true"></span>
+                  <span class="mono">open to opportunities</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="photo-strip photo-strip--top reveal">
+        <img src="./attachments/IMG_8191.jpeg" alt="" loading="lazy" class="photo-strip__img" />
+        <img src="./attachments/IMG_9041.jpeg" alt="" loading="lazy" class="photo-strip__img" />
+        <img src="./attachments/IMG_9227.jpeg" alt="" loading="lazy" class="photo-strip__img" />
+      </div>
+
+      <section id="about" class="section">
+        <div class="container">
+          <div class="section__head reveal">
+            <h2>About</h2>
+            <p class="lede">
+              I am an economics honours student who likes understanding how economies move, and using data to explain the
+              why behind the headlines.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <div class="card reveal">
+              <h3>Quick intro</h3>
+              <p>
+                I am pursuing a BA in Economics (Honours). I like macro questions, forecasting, and building clean
+                analysis that holds up under scrutiny and reads clearly.
+              </p>
+              <div class="stats mono">
+                <div class="stat">
+                  <div class="stat__k">Program</div>
+                  <div class="stat__v">BA, Economics (Honours)</div>
+                </div>
+                <div class="stat">
+                  <div class="stat__k">University</div>
+                  <div class="stat__v">University of Alberta</div>
+                </div>
+                <div class="stat">
+                  <div class="stat__k">Year</div>
+                  <div class="stat__v">4th year</div>
+                </div>
+              </div>
+
+              <ul class="bullets">
+                <li>GPA 4.0/4.0. Dean’s Honor List. International Leader Scholar. Faculty Scholar.</li>
+                <li>Relevant coursework: Statistical Analysis, Advanced Microeconomics and Finance, Data Structures and Algorithms.</li>
+                <li>British School in Colombo: 4 A* in economics, chemistry, mathematics, and history.</li>
+              </ul>
+            </div>
+
+            <div class="card reveal">
+              <h3>Outside the graphs</h3>
+              <div class="tiles">
+                <div class="tile">
+                  <div class="tile__icon" aria-hidden="true">✦</div>
+                  <div class="tile__text">
+                    <div class="tile__title">Travel & food</div>
+                    <div class="tile__sub">new places, local flavours</div>
+                  </div>
+                </div>
+                <div class="tile">
+                  <div class="tile__icon" aria-hidden="true">◍</div>
+                  <div class="tile__text">
+                    <div class="tile__title">Sports</div>
+                    <div class="tile__sub">always up for a game</div>
+                  </div>
+                </div>
+                <div class="tile">
+                  <div class="tile__icon" aria-hidden="true">♫</div>
+                  <div class="tile__text">
+                    <div class="tile__title">Music</div>
+                    <div class="tile__sub">
+                      <a href="#" class="inline-link" data-playlist-link>playlist link (add)</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="tile">
+                  <div class="tile__icon" aria-hidden="true">⛰</div>
+                  <div class="tile__text">
+                    <div class="tile__title">Rock climbing</div>
+                    <div class="tile__sub">problem solving, vertically</div>
+                  </div>
+                </div>
+                <div class="tile">
+                  <div class="tile__icon" aria-hidden="true">⤒</div>
+                  <div class="tile__text">
+                    <div class="tile__title">Hiking</div>
+                    <div class="tile__sub">big views, quiet thoughts</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="spotify">
+                <div class="spotify__head">
+                  <span class="mono spotify__label">Spotify</span>
+                  <span class="spotify__note"></span>
+                </div>
+                <div class="spotify__embed" data-spotify-embed>
+                  <div class="spotify__placeholder mono">
+                    iframe embed placeholder
+                    <span class="spotify__sub">Add playlist URL → autoloads here.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <div class="photo-strip photo-strip--bottom reveal">
+        <img src="./attachments/IMG_8758.jpeg" alt="" loading="lazy" class="photo-strip__img" />
+        <img src="./attachments/IMG_9295.jpeg" alt="" loading="lazy" class="photo-strip__img" />
+      </div>
+
+      <section id="experience" class="section">
+        <div class="container">
+          <div class="section__head reveal">
+            <h2>Experience</h2>
+            <p class="lede">Roles across economic research, consulting, and business development.</p>
+          </div>
+
+          <div class="timeline">
+            <article class="xp card reveal">
+              <div class="xp__media">
+                <div class="xp__logo-wrap"><img src="./work-logos/frontier.png" alt="Frontier Research logo" class="xp__logo" /></div>
+                <div class="xp__badge mono">Frontier Research</div>
+                <div class="xp__meta mono">Economic research</div>
+              </div>
+              <div class="xp__content">
+                <h3>Economic Research Intern</h3>
+                <p class="muted mono">May 2025 to Present</p>
+                <ul class="bullets">
+                  <li>
+                    Improved forecasting accuracy for FX rates, bond yields, and interest rates by 10 percent through
+                    Python time series models and backtesting (pandas, statsmodels).
+                  </li>
+                  <li>
+                    Reduced scenario analysis turnaround time by 40 percent by automating Monte Carlo stress tests for
+                    policy and market shock assessments.
+                  </li>
+                  <li>
+                    Authored data driven reports on consumer geographies, remittance trends, and major global trade
+                    flows.
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="xp card reveal">
+              <div class="xp__media">
+                <div class="xp__logo-wrap"><img src="./work-logos/tandem-trans.png" alt="Tandem Trans logo" class="xp__logo" /></div>
+                <div class="xp__badge mono">Tandem Trans</div>
+                <div class="xp__meta mono">Business development</div>
+              </div>
+              <div class="xp__content">
+                <h3>B2B Business Development and Marketing Intern</h3>
+                <p class="muted mono">Sep 2024 to Jan 2025</p>
+                <ul class="bullets">
+                  <li>
+                    Used Salesforce CRM analytics to identify and target high value prospects in Alberta, growing the
+                    sales pipeline by 30 percent.
+                  </li>
+                  <li>
+                    Built automated Excel VBA dashboards to track conversion rates and sales performance, increasing
+                    deal closure rates by 15 percent.
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="xp card reveal">
+              <div class="xp__media">
+                <div class="xp__logo-wrap"><img src="./work-logos/richardson.png" alt="Richardson Holdings logo" class="xp__logo" /></div>
+                <div class="xp__badge mono">Richardson Holdings</div>
+                <div class="xp__meta mono">Consulting</div>
+              </div>
+              <div class="xp__content">
+                <h3>Consultant Intern</h3>
+                <p class="muted mono">Sep 2023 to Jan 2024</p>
+                <ul class="bullets">
+                  <li>
+                    Designed DCF and scenario based financial models in Excel to guide expansion strategy, projecting 10
+                    percent market share growth.
+                  </li>
+                  <li>
+                    Created interactive Power BI dashboards integrating SQL datasets for real time revenue, cost, and
+                    margin analysis.
+                  </li>
+                  <li>
+                    Applied statistical clustering to employee engagement survey data and recommended retention
+                    strategies that improved retention by 12 percent.
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <article class="xp card reveal">
+              <div class="xp__media">
+                <div class="xp__logo-wrap"><img src="./work-logos/amex.png" alt="American Express logo" class="xp__logo" /></div>
+                <div class="xp__badge mono">American Express</div>
+                <div class="xp__meta mono">Business development</div>
+              </div>
+              <div class="xp__content">
+                <h3>Business Development Officer</h3>
+                <p class="muted mono">Mar 2023 to Jul 2023</p>
+                <ul class="bullets">
+                  <li>
+                    Generated 300 plus high value leads using CRM platforms and achieved an 85 percent conversion rate,
+                    exceeding revenue targets by 130 percent.
+                  </li>
+                  <li>
+                    Conducted customer segmentation analysis to refine financial product offerings and increase client
+                    adoption.
+                  </li>
+                  <li>
+                    Delivered internal training on financial sales forecasting and proposal valuation techniques to 10
+                    interns.
+                  </li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="container">
+          <div class="section__head reveal">
+            <h2>Projects</h2>
+            <p class="lede">Selected academic and internship work in analysis, writing, and visual storytelling.</p>
+          </div>
+
+          <div class="grid">
+            <article class="project card reveal">
+              <div class="project__media">
+                <img src="./assets/web/consumer-geo-1.png" alt="Consumer geographies report screenshot" loading="lazy" />
+              </div>
+              <div class="project__body">
+                <h3>Consumer Geographies Report</h3>
+                <p class="muted">Internship report</p>
+                <p>
+                  Analysis of how consumption patterns are shifting across districts, with forecasts on expected trends.
+                  Uses nightlight satellite data as a proxy signal alongside ArcGIS outputs.
+                </p>
+                <div class="tags mono">
+                  <span>ArcGIS</span><span>Nightlight data</span><span>Forecasting</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="project card reveal">
+              <div class="project__media">
+                <img src="./assets/web/remittances-2.png" alt="Personal remittances report screenshot" loading="lazy" />
+              </div>
+              <div class="project__body">
+                <h3>Personal Remittances, Cyclical Analysis</h3>
+                <p class="muted">Internship research</p>
+                <p>
+                  Research on how personal remittances move cyclically, including patterns relative to economic cycles,
+                  drivers, and implications for macro conditions.
+                </p>
+                <div class="tags mono">
+                  <span>Macro</span><span>Time series</span><span>Research writing</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="project card reveal project--chart-focus">
+              <div class="project__media project__media--iframe project__media--tall">
+                <iframe
+                  title="Mapping out China's solar PV exports"
+                  loading="lazy"
+                  src="./assets/econ%20366%20projects/kalathmi_pathiraja.html"
+                ></iframe>
+              </div>
+              <div class="project__body">
+                <h3>Mapping out China's solar PV exports</h3>
+                <p class="muted mono">ECON 366 · interactive</p>
+              </div>
+            </article>
+
+            <article class="project card reveal">
+              <div class="project__media">
+                <img src="./assets/web/inflation-paper-1.png" alt="Inflation and interest rates paper screenshot" loading="lazy" />
+              </div>
+              <div class="project__body">
+                <h3>Central Bank Inflation & Interest Rates</h3>
+                <p class="muted">Academic paper</p>
+                <p>
+                  Examines central bank responses to inflation, how interest rate decisions track inflation dynamics,
+                  and what that implies for stability and credibility.
+                </p>
+                <div class="tags mono"><span>Monetary policy</span><span>Writing</span><span>Macro</span></div>
+              </div>
+            </article>
+
+            <article class="project card reveal">
+              <div class="project__media">
+                <img src="./claude-req/alberta-wcs.png" alt="WCS Crude Oil Price Scenarios 2025" loading="lazy" />
+              </div>
+              <div class="project__body">
+                <h3>WCS Crude Oil Prices</h3>
+                <p class="muted mono">Alberta energy series · 1 of 3</p>
+                <p>Western Canadian Select benchmark pricing over time — the starting point for understanding Alberta's energy revenue and the persistent WCS–WTI differential driven by landlocked supply and pipeline constraints.</p>
+                <div class="tags mono"><span>Energy</span><span>Alberta</span><span>WCS</span></div>
+              </div>
+            </article>
+
+            <article class="project card reveal">
+              <div class="project__media">
+                <img src="./claude-req/alberta-merit-order.png" alt="Alberta Energy Merit Order" loading="lazy" />
+              </div>
+              <div class="project__body">
+                <h3>Alberta Merit Order</h3>
+                <p class="muted mono">Alberta energy series · 2 of 3</p>
+                <p>The merit order stacks generation sources by marginal cost — showing how natural gas, coal, wind, and hydro compete to set the pool price. The shape of this curve explains why price spikes happen and when renewables start displacing thermal generation.</p>
+                <div class="tags mono"><span>Power markets</span><span>Dispatch</span><span>Alberta</span></div>
+              </div>
+            </article>
+
+            <article class="project card reveal">
+              <div class="project__media">
+                <img src="./claude-req/alberta-pool-price.png" alt="Alberta Pool Price by Month 2025" loading="lazy" />
+              </div>
+              <div class="project__body">
+                <h3>Alberta Pool Price by Month</h3>
+                <p class="muted mono">Alberta energy series · 3 of 3</p>
+                <p>Monthly average pool prices expose the seasonality and volatility baked into Alberta's deregulated electricity market. Read alongside the merit order and WCS series, the three charts trace how oil revenues, generation mix, and spot prices interact across the province's energy economy.</p>
+                <div class="tags mono"><span>Electricity</span><span>AESO</span><span>Forecasting</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="model" class="section">
+        <div class="container">
+          <div class="section__head reveal">
+            <h2>Phillips Curve — Shock Dynamics</h2>
+            <p class="lede">
+              An interactive three-equations model built for ECON 385. Adjust the Phillips curve specification,
+              expectations formation, and shock parameters — watch how output gap and inflation evolve in real time
+              across four linked diagrams.
+            </p>
+          </div>
+
+          <div class="model-embed card reveal">
+            <iframe
+              src="./assets/phillips_curve.html"
+              title="Phillips Curve Shock Dynamics"
+              class="model-embed__frame"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section section--end">
+        <div class="container">
+          <div class="contact card reveal">
+            <div class="contact__copy">
+              <h2>Contact</h2>
+              <p class="lede">Want to talk research, data, or a project idea? Reach out.</p>
+              <div class="contact__actions">
+                <a class="btn btn--primary" href="mailto:kalathmi.pathiraja@gmail.com" data-email-link>Email</a>
+                <a class="btn btn--ghost" href="tel:+18258883023">Call</a>
+                <a class="btn btn--ghost" href="#" data-linkedin-link>LinkedIn</a>
+                <a class="btn btn--ghost" href="#" data-github-link>GitHub</a>
+              </div>
+            </div>
+
+            <div class="contact__panel terminal" aria-label="Footer terminal">
+              <div class="terminal__bar">
+                <span class="terminal__dot terminal__dot--red"></span>
+                <span class="terminal__dot terminal__dot--yellow"></span>
+                <span class="terminal__dot terminal__dot--green"></span>
+                <span class="terminal__title mono">notes</span>
+              </div>
+              <div class="terminal__body mono">
+                <p><span class="prompt">$</span> built with</p>
+                <p>vanilla HTML • CSS • JavaScript</p>
+                <p><span class="prompt">$</span> theme</p>
+                <p>dark • data forward • terminal plus journal</p>
+              </div>
+            </div>
+          </div>
+          <footer class="footer mono">
+            <span>© <span data-year></span> Kalathmi Pathiraja</span>
+            <span class="footer__sep">•</span>
+            <a class="inline-link" href="#top">Back to top</a>
+          </footer>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

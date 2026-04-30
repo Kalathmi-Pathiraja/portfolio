@@ -1,0 +1,447 @@
+## China's Solar PV Exports
+
+#### [Kalathmi Pathiraja](https://www.linkedin.com/in/kalathmi-pathiraja-30597b271/)
+
+
+The global solar supply chain revolution has been driven almost entirely through the singular lens of Chinese exports. I chose this two graph display because it transforms granular trade figures into a country-based narrative. While traditional European hubs like the Netherlands continue to maintain their standing as critical re-exporting gateways, the map reveals a striking shift toward "frontier" markets. Specifically, in Asia where India emerged as a major contributor, underscoring how decentralized power is reshaping the new energy equation. Solar power is no longer just a "green" alternative, but also a competitive and disruptive market force, transforming merit orders and forcing a transition toward flexible, battery-backed grid solutions. This data matters because it highlights a critical pivot in decarbonization efforts, as detailed by the [IEA](https://www.iea.org/reports/integrating-solar-and-wind). The chart aims to bridge the gap between high-level regional trends and the local impacts of a world moving rapidly away from traditional generation. (Hover & zoom to see country data!).
+
+
+```{r echo=F, warning=FALSE, include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  message=F,
+  warning=F,
+  include=T,
+  cache=TRUE,
+  cache.lazy = FALSE
+)
+options(scipen = 999)
+
+```
+
+```{r echo=F, warning=FALSE, include=FALSE, cache=TRUE}
+# Install all required packages (uncomment and run once if needed)
+# install.packages(c("kableExtra", "readxl", "janitor", "tidyverse", "lubridate", "scales", "viridis", "plotly", "sf", "countrycode", "rnaturalearth", "rnaturalearthdata"))
+
+library(readxl)
+library(janitor)
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(viridis)
+library(plotly)
+library(sf)  # For handling spatial data
+library(countrycode)
+library(rnaturalearth)  # For world map data
+library(rnaturalearthdata)  # For country boundaries
+
+```
+
+
+```{r echo=F, warning=FALSE, include=FALSE, cache=TRUE}
+# Prepare your solar data
+solar_data <- read_csv("kalathmi.csv") %>%
+  clean_names() %>%
+  mutate(date = as_date(date)) 
+
+solar_summary<-solar_data%>%
+  group_by(area)%>%
+  summarise(total_exports_mw = sum(capacity_mw, na.rm = TRUE), # sum of all capacities
+            total_exports_usd = sum(amount_usd,na.rm = TRUE), # sum of dollar value of exports 
+            .groups = "drop") # remove grouping
+
+# for the line chart - data cleaning
+
+regional_time_data <- solar_data %>%
+  filter(region %in% c("Asia", "Europe", "Africa", "Oceania", 
+                       "Latin America and Caribbean", "Middle East", "North America")) %>%   # Keep only the regional aggregates & get rid of NA 
+  group_by(region, date) %>%   # Group by region and date to get time series
+  summarise(
+    total_exports_mw = sum(capacity_mw, na.rm = TRUE),
+    total_exports_usd = sum(amount_usd, na.rm = TRUE),
+    .groups = "drop" # get rid of groups after
+  ) %>%
+  filter(date >= as.Date("2017-01-01"), date <= as.Date("2026-01-01"))
+
+# line chart
+
+```
+
+```{r echo=F, warning=FALSE, include=FALSE, cache=TRUE}
+time_plot <- ggplot(regional_time_data) +
+  geom_line(aes(x = date, y = total_exports_mw, color = region), 
+            linewidth = 0.8) +
+  scale_x_date(
+    date_labels = "%Y",
+    date_breaks = "1 year",
+    expand = c(0,0)
+  ) +
+  scale_y_continuous(
+    name = "Exports (MW)",
+    labels = label_number(scale = 1, suffix = " MW"),
+    expand = c(0, 0),
+    breaks = pretty_breaks()) +
+      
+  scale_color_manual(
+    name = "",
+    values = c(
+      "Asia" = "#E69F00",
+      "Europe" = "#56B4E9", 
+      "North America" = "#009E73",
+      "Latin America and Caribbean" = "#F0E442",
+      "Africa" = "#0072B2",
+      "Middle East" = "#D55E00",
+      "Oceania" = "#CC79A7"
+    )
+  ) +
+  labs(
+    title = "Regional Solar Panel Exports Over Time",
+    x = "",
+    y = "Total Exports (MW)",
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    legend.text = element_text(size = 10),                  
+    legend.margin = margin(t = 5, b = 0),                   
+    legend.box.margin = margin(t = -12, b = 5),            
+    legend.key.size = unit(0.5, "cm"),                   
+    legend.spacing.x = unit(0.2, "cm"),                     
+    plot.title = element_text(face = "bold", size = 12, hjust = 0.5),
+    plot.subtitle = element_text(size = 10),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    axis.line = element_line(color = "black", linewidth = 0.5),
+    legend.spacing.y = unit(0.1, "cm")
+  )
+
+# interactive using plotly
+
+# prompt to ai: to help create the hover texts since the line chart data had a different data structure (ie traces compared to polygons)
+
+# Convert to interactive with preserved theme
+time_interactive <- ggplotly(time_plot, tooltip = c("x", "y", "colour"))
+
+# Get unique regions in the order they appear in the plot
+regions <- unique(regional_time_data$region)
+
+# Apply hover text for each trace (one per region)
+for(i in 1:length(regions)) {
+  region_data <- regional_time_data %>% filter(region == regions[i])
+  
+  time_interactive <- time_interactive %>%
+    style(
+      hovertext = paste(
+        "<b>", region_data$region, "</b><br>",
+        "━━━━━━━━━━━━━━━━━━<br>",
+        "Date: ", format(region_data$date, "%B %Y"), "<br>",
+        "Total Exports: ", comma(region_data$total_exports_mw), " MW"
+      ),
+      traces = i
+    )
+}
+
+# add the layout
+time_interactive <- time_interactive %>%
+  layout(
+    plot_bgcolor = "aliceblue",
+    paper_bgcolor = "white",
+    
+    title = list(
+      text = "Regional Solar Panel Exports Over Time",
+      font = list(size = 12, family = "sans-serif", color = "black"),
+      x = 0.5,
+      xref = "paper",
+      y = 0.98
+    ),
+
+    
+    legend = list(
+      orientation = "h",
+      y = 0.1,                      
+      x = 0.5,
+      xanchor = "center",
+      font = list(size = 9),           
+      itemclick = "toggleothers",
+      itemdoubleclick = "toggle",
+      bgcolor = "rgba(255,255,255,0.8)",  
+      itemwidth = 30,                 
+      tracegroupgap = 3               
+      ),
+    
+    xaxis = list(
+      title = "",
+      tickfont = list(size = 8),
+      gridcolor = "lightgray"
+    ),
+    yaxis = list(
+      title = "Exports (MW)",
+      titlefont = list(size = 9, face = "bold"),
+      tickfont = list(size = 8),
+      gridcolor = "lightgray"
+    ),
+    
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(size = 11),
+      bordercolor = "black"
+    ),
+    
+    margin = list(l = 40, r = 20, t = 40, b = 60)
+  )
+
+```
+
+```{r echo=F, warning=FALSE, include=FALSE, cache=TRUE}
+
+# cleaning the solar data to match the map data 
+solar_summary <- solar_summary%>% filter(
+    !area %in% c("EU", "Europe", "G20", "G7", "North America", "OECD", 
+                 "Middle East", "World", "Other Africa", "Other Latin America", 
+                 "Other Oceania", "Latin America and Caribbean",
+                 "Africa", "Asia", "Americas", "Oceania", "Antarctica", "ASEAN"))
+
+# name matching to map data
+
+#get ISO codes for your countries and add it as another column
+
+solar_summary <- solar_summary %>%
+  mutate(
+    # Try to get ISO3 codes from country names
+    iso3 = countrycode(
+      area, 
+      origin = "country.name", 
+      destination = "iso3c",
+      warn = TRUE
+    ))
+
+# manually fixing the countries without country codes
+
+solar_summary <- solar_summary %>%
+  mutate(
+    iso3 = case_when(
+      area == "Micronesia" ~ "FSM",
+      area == "Netherlands Antilles" ~ "NLD",  # Add to Netherlands
+      TRUE ~ iso3
+    ))
+
+
+
+```
+
+```{r echo=F, warning=FALSE, include=FALSE, cache=TRUE}
+# 
+world_map <- ne_countries(scale = "medium", returnclass = "sf") %>% # downloads world map data from natural earth in medium res, sf <- simple features
+    mutate(
+    # Fix the countries with "-99" ISO codes
+    iso_a3 = case_when(
+      name == "Norway" ~ "NOR",
+      name == "France" ~ "FRA",
+      name == "Kosovo" ~ "KOS",
+      # Keep other countries as is
+      TRUE ~ iso_a3
+    ))
+
+```
+
+```{r echo=F, warning=FALSE, include=FALSE, cache=TRUE }
+map_data <- world_map %>%
+  left_join(solar_summary, by = c("iso_a3" = "iso3")) %>% # joins the map data to the solar export data based on where the country codes are matching
+    mutate(total_exports_mw = replace_na(total_exports_mw, 0)) # when total exports in mw = NA then replace with 0
+
+
+# Use log and breaks for continuous scale
+p<- ggplot(map_data) +
+  geom_sf(aes(fill = total_exports_mw), color = "white", size = 0.1) + 
+  scale_fill_viridis_c(
+    name = "Total Exports (MW)",
+    option = "magma",
+    trans = "log10",
+    labels = label_number(scale = 1, suffix = " MW", accuracy = 1),
+    na.value = "grey90",
+    breaks = c(0, 10, 100, 1000, 10000, 100000, 250000),
+    limits = c(1, max(map_data$total_exports_mw, na.rm = TRUE)),
+    guide = guide_colorbar(
+      direction = "vertical",          
+      barheight = unit(12, "cm"),       
+      barwidth = unit(0.8, "cm"),      
+      ticks = TRUE,
+      title.position = "top",           
+      title.hjust = 0.5,
+      label.position = "right",         
+      label.hjust = 0,
+      frame.colour = "black",
+      ticks.colour = "black",
+      label.theme = element_text(size = 9),
+      title.theme = element_text(size = 10, face = "bold")
+    )
+  ) +
+  labs(
+    title = "Chinese Global Solar Panel Exports by Country",
+    subtitle = "Total exported capacity (MW) across 2017-2025 (log scale)",
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom", 
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    plot.subtitle = element_text(size = 10, hjust = 0.5),
+    plot.caption = element_text(hjust = 0),
+    legend.margin = margin(t = 5, b = 5),
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "aliceblue", color = NA)
+  )
+
+# Create more detailed hover text
+
+# prompt to ai: How can I add more detail to the hover options created in plotly give detailed instructions on the commands
+
+map_data <- map_data %>%
+  mutate(
+    hover_text = paste(
+      "<b>", name, "</b><br>",
+      "━━━━━━━━━━━━━━━━━━<br>",
+      "Export Capacity: ", round(total_exports_mw, 1), " MW<br>",
+      "Value: $", round(total_exports_usd/1e6, 1), " Million USD<br>",
+      "Region: ", continent, "<br>",
+      ifelse(total_exports_mw > 0,
+             paste("Share of World: ", round(total_exports_mw / sum(total_exports_mw, na.rm = TRUE) * 100, 2), "%"),
+             "No recorded exports"),
+      sep = ""
+    )
+  )
+
+# creating the choropleth plot with detailed hover text
+p <- ggplot(map_data) +
+  geom_sf(aes(fill = total_exports_mw, text = hover_text), 
+          color = "white", size = 0.1) + 
+  
+  scale_fill_viridis_c(
+    name = "",
+    option = "magma",
+    trans = "log10",
+    labels = label_number(scale = 1, suffix = " MW", accuracy = 1),
+    na.value = "grey90",
+    breaks = c(1, 10, 100, 1000, 10000, 100000, 250000),
+    limits = c(1, max(map_data$total_exports_mw, na.rm = TRUE)),
+    guide = guide_colorbar(
+      direction = "horizontal",
+      barheight = unit(0.4, "cm"),
+      barwidth = unit(14, "cm"),
+      ticks = TRUE,
+      title.position = "top",
+      title.hjust = 0.5,
+      label.position = "bottom",
+      label.hjust = 0.5,
+      frame.colour = "black",
+      ticks.colour = "black"
+    )
+  ) +
+  labs(
+    title = "Chinese Global Solar Panel Exports by Country",
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right", 
+    legend.justification = "top",
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5),
+    plot.subtitle = element_text(size = 10, hjust = 0.5),
+    plot.caption = element_text(hjust = 0),
+    legend.margin = margin(t = 5, b = 5),
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank(),
+    panel.background = element_rect(fill = "aliceblue", color = NA)
+  )
+
+# Convert to interactive while preserving theme
+# Convert to interactive with legend at top-right
+map_interactive <- ggplotly(p, tooltip = "text") %>% 
+  layout(
+    plot_bgcolor = "aliceblue",
+    paper_bgcolor = "white",
+    
+    # Title with subtitle above
+    title = list(
+      font = list(size = 14, family = "sans-serif", color = "black"),
+      x = 0.5,
+      xref = "paper",
+      y = 0.5
+    ),
+    
+    hoverlabel = list(
+      bgcolor = "white",
+      font = list(size = 12, family = "sans-serif"),
+      bordercolor = "black"
+    ),
+    
+    margin = list(l = 0, r = 40, t = 40, b = 40))  # Right margin for legend
+
+
+# Combine both plots in a single dashboard
+```
+
+```{r fig.height=10, fig.width=12, fig.align='center',out.width='110%', cache=TRUE, echo=F}
+
+knitr::opts_chunk$set(message=F,
+                      warning=F)
+options(scipen = 999) 
+
+combined_dashboard <- subplot(
+  map_interactive,
+  time_interactive,
+  nrows = 2,
+  heights = c(0.6, 0.4),
+  titleX = TRUE,
+  titleY = TRUE,
+  margin = 0.02
+) %>%
+  layout(
+    title = list(
+      text = "Chinese Solar Exports in MW Capacity: Global Distribution & Regional Trends (2017-2025)",
+      x = 0.5,
+      font = list(size = 16, family = "Arial")
+    ),
+    margin = list(t = 80, b = 60, l = 50, r = 50),
+    annotations = list(
+      # Top annotation for map subtitle
+      list(
+        x = 0.5,
+        y = 1.04,
+        text = "Global Export Distribution by Country (log scale from 2017-2025)",
+        showarrow = FALSE,
+        xref = "paper",
+        yref = "paper",
+        font = list(size = 12, color = "black")
+      ),
+      # Middle annotation for line chart subtitle
+      list(
+        x = 0.5,
+        y = 0.4,
+        text = "Regional Export Trends Over Time",
+        showarrow = FALSE,
+        xref = "paper",
+        yref = "paper",
+        font = list(size = 12, color = "black")
+      ),
+
+      list(
+        x = 0.99,
+        y = -0.08,
+        text = "Data via Ember, graph by Kalathmi Pathiraja",
+        showarrow = FALSE,
+        xref = "paper",
+        yref = "paper",
+        font = list(size = 10, color = "gray50")
+      )
+    )
+  )
+
+combined_dashboard
+
+```
+
+I'm a third-year Econ and CS student with a passion for turning "messy" datasets into clear, compelling narratives. My background ranges from consulting and research to sales; notably, during my last macro-econ research internship, I experimented with unconventional GIS data, using nightlight intensity as a proxy to map shifting consumer patterns and economic geographies for investors. I’m excited to keep sharpening these skills as an analyst at Hugessen Consulting this summer. If you're interested in data storytelling or the intersection of economics and tech, I'd love to connect.
+
+
+

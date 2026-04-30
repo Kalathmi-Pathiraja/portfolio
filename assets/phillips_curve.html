@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phillips Curve Dynamics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F0E8;
+    --surface: #FDFAF4;
+    --surface2: #EDE8DC;
+    --ink: #1A1410;
+    --ink2: #4A3F35;
+    --ink3: #8A7A6A;
+    --amber: #C8821A;
+    --amber-light: #F0A830;
+    --rust: #B04020;
+    --teal: #2A7A6A;
+    --teal-light: #3AAFA0;
+    --grid: rgba(26,20,16,0.08);
+    --border: rgba(26,20,16,0.15);
+    --blue: #2A5A9A;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  .header {
+    border-bottom: 2px solid var(--ink);
+    padding: 28px 40px 20px;
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    background: var(--surface);
+  }
+  .header-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink3);
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .header-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink3);
+    margin-left: auto;
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 73px);
+  }
+
+  .controls {
+    background: var(--surface);
+    border-right: 1.5px solid var(--border);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow-y: auto;
+  }
+
+  .ctrl-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .toggle-row {
+    display: flex;
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .toggle-btn {
+    flex: 1;
+    padding: 9px 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: var(--ink3);
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .toggle-btn.active { background: var(--ink); color: var(--bg); }
+
+  .toggle-3 { display: flex; border: 1.5px solid var(--ink); border-radius: 2px; overflow: hidden; }
+  .toggle-3 .toggle-btn { font-size: 10px; }
+
+  .slider-group { display: flex; flex-direction: column; gap: 7px; }
+  .slider-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .slider-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink2);
+  }
+  .slider-label em { font-style: italic; font-family: 'Playfair Display', serif; font-size: 13px; }
+  .slider-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--amber);
+    min-width: 36px;
+    text-align: right;
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--amber);
+    cursor: pointer;
+    border: 2px solid var(--surface);
+    box-shadow: 0 0 0 1.5px var(--amber);
+  }
+
+  .pc-formula {
+    background: var(--surface2);
+    border-left: 3px solid var(--blue);
+    padding: 12px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink2);
+    line-height: 1.9;
+  }
+  .pc-formula strong { color: var(--blue); }
+
+  .derived {
+    background: var(--surface2);
+    border-left: 3px solid var(--amber);
+    padding: 12px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink2);
+    line-height: 1.9;
+  }
+  .derived span { color: var(--amber); }
+
+  .diagram-area {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    background: var(--border);
+    border: 1.5px solid var(--border);
+    height: 340px;
+  }
+  .panel {
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .panel-label {
+    position: absolute; top: 10px; left: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--ink3);
+    z-index: 5;
+    text-transform: uppercase;
+  }
+  canvas { display: block; width: 100%; height: 100%; }
+
+  .timeseries-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    background: var(--border);
+    border: 1.5px solid var(--border);
+    height: 220px;
+  }
+
+  .narrative {
+    background: var(--surface2);
+    border-top: 2px solid var(--border);
+    padding: 16px 22px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink2);
+  }
+  .narrative strong {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .narrative .eq-h {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--surface);
+    padding: 2px 6px;
+    border-radius: 2px;
+    color: var(--amber);
+  }
+
+  .legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink2);
+  }
+  .legend-line { width: 24px; height: 2px; border-radius: 1px; }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+  .supply-only { display: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-eyebrow">ECON 385 · New Keynesian Macroeconomics</div>
+    <h1>Phillips Curve — Shock Dynamics</h1>
+  </div>
+  <div class="header-sub">Phase Diagram · Time Series</div>
+</div>
+
+<div class="main">
+  <div class="controls">
+
+    <div>
+      <div class="ctrl-section-label">Shock Type</div>
+      <div class="toggle-row">
+        <button class="toggle-btn active" id="btn-demand" onclick="setShock('demand')">Demand</button>
+        <button class="toggle-btn" id="btn-supply" onclick="setShock('supply')">Supply</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="ctrl-section-label">Phillips Curve</div>
+      <div class="toggle-row">
+        <button class="toggle-btn active" id="btn-sw" onclick="setPC('sw')">Sticky Wage</button>
+        <button class="toggle-btn" id="btn-nk" onclick="setPC('nk')">NKPC</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="ctrl-section-label">Expectations</div>
+      <div class="toggle-row">
+        <button class="toggle-btn active" id="btn-adapt" onclick="setExp('adaptive')">Adaptive</button>
+        <button class="toggle-btn" id="btn-rat" onclick="setExp('rational')">Rational</button>
+      </div>
+    </div>
+
+    <div id="supply-cb-ctrl" class="supply-only">
+      <div class="ctrl-section-label">CB Policy</div>
+      <div class="toggle-row">
+        <button class="toggle-btn active" id="btn-opt" onclick="setCB('optimal')">Optimal</button>
+        <button class="toggle-btn" id="btn-none" onclick="setCB('none')">No Response</button>
+      </div>
+    </div>
+
+    <div class="pc-formula" id="pc-formula-box">
+      <strong>SW · Adaptive</strong><br>
+      πₜ = πₜ₋₁ + κŷₜ
+    </div>
+
+    <div>
+      <div class="ctrl-section-label">Parameters</div>
+      <div class="slider-group">
+        <div class="slider-header">
+          <span class="slider-label"><em>κ</em> — PC slope</span>
+          <span class="slider-val" id="val-kappa">0.40</span>
+        </div>
+        <input type="range" id="sl-kappa" min="0.05" max="1.5" step="0.05" value="0.4" oninput="onSlider()">
+      </div>
+      <div class="slider-group" style="margin-top:12px">
+        <div class="slider-header">
+          <span class="slider-label"><em>b</em> — CB hawkishness</span>
+          <span class="slider-val" id="val-b">1.50</span>
+        </div>
+        <input type="range" id="sl-b" min="0.1" max="5.0" step="0.1" value="1.5" oninput="onSlider()">
+      </div>
+    </div>
+
+    <div>
+      <div class="ctrl-section-label">Shock</div>
+      <div class="slider-group" id="eps-ctrl">
+        <div class="slider-header">
+          <span class="slider-label"><em>ε</em> — shock size</span>
+          <span class="slider-val" id="val-eps">2.00</span>
+        </div>
+        <input type="range" id="sl-eps" min="0.5" max="4.0" step="0.1" value="2.0" oninput="onSlider()">
+      </div>
+      <div class="slider-group" id="zeta-ctrl" style="display:none">
+        <div class="slider-header">
+          <span class="slider-label"><em>ζ</em> — shock size</span>
+          <span class="slider-val" id="val-zeta">2.00</span>
+        </div>
+        <input type="range" id="sl-zeta" min="0.5" max="4.0" step="0.1" value="2.0" oninput="onSlider()">
+      </div>
+      <div class="slider-group" style="margin-top:12px">
+        <div class="slider-header">
+          <span class="slider-label"><em>ρ</em> — persistence</span>
+          <span class="slider-val" id="val-rho">0.00</span>
+        </div>
+        <input type="range" id="sl-rho" min="0" max="0.95" step="0.05" value="0.0" oninput="onSlider()">
+      </div>
+    </div>
+
+    <div class="derived">
+      <span>ν</span> = κb = <span id="d-nu">0.600</span><br>
+      νκ = <span id="d-nk">0.240</span>
+    </div>
+
+  </div>
+
+  <div class="diagram-area">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-line" style="background:var(--rust)"></div>AS₀</div>
+      <div class="legend-item"><div class="legend-line" style="background:var(--amber);border-top:2px dashed var(--amber);height:0"></div>AD</div>
+      <div class="legend-item"><div class="legend-line" style="background:var(--teal)"></div>ŷ over time</div>
+      <div class="legend-item"><div class="legend-line" style="background:var(--blue)"></div>π − π* over time</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div>A (steady state)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--rust)"></div>B₁</div>
+    </div>
+
+    <div class="charts-row">
+      <div class="panel">
+        <div class="panel-label">Phase Diagram &nbsp; π vs ŷ</div>
+        <canvas id="c-phase"></canvas>
+      </div>
+      <div class="panel">
+        <div class="panel-label">AS–AD &nbsp; π vs ŷ</div>
+        <canvas id="c-asad"></canvas>
+      </div>
+    </div>
+
+    <div class="timeseries-row">
+      <div class="panel">
+        <div class="panel-label">Output Gap &nbsp; ŷₜ</div>
+        <canvas id="c-ygap"></canvas>
+      </div>
+      <div class="panel">
+        <div class="panel-label">Inflation Gap &nbsp; πₜ − π*</div>
+        <canvas id="c-pigap"></canvas>
+      </div>
+    </div>
+
+    <div class="narrative" id="narr"></div>
+  </div>
+</div>
+
+<script>
+const PISTAR = 2.0, RSTAR = 1.5, THETA = 0.99;
+let shockType = 'demand', pcType = 'sw', expType = 'adaptive', cbPolicy = 'optimal';
+
+const C = {
+  teal:'#2A7A6A', tealL:'#3AAFA0',
+  amber:'#C8821A', amberL:'#F0A830',
+  rust:'#B04020', blue:'#2A5A9A',
+  ink:'#1A1410', ink2:'#4A3F35', ink3:'#8A7A6A',
+  grid:'rgba(26,20,16,0.07)',
+};
+
+const PERIOD_COLORS = ['#B04020','#C8821A','#2A7A6A','#2A5A9A','#6A4A8A','#3AAFA0','#8A3A20','#5A7A3A'];
+
+function setShock(t) {
+  shockType = t;
+  ['demand','supply'].forEach(x => document.getElementById('btn-'+x).classList.toggle('active', x===t));
+  document.getElementById('eps-ctrl').style.display  = t==='demand' ? '' : 'none';
+  document.getElementById('zeta-ctrl').style.display = t==='supply' ? '' : 'none';
+  document.querySelectorAll('.supply-only').forEach(el => el.style.display = t==='supply' ? '' : 'none');
+  simulate();
+}
+function setPC(t) {
+  pcType = t;
+  document.getElementById('btn-sw').classList.toggle('active', t==='sw');
+  document.getElementById('btn-nk').classList.toggle('active', t==='nk');
+  simulate();
+}
+function setExp(t) {
+  expType = t;
+  document.getElementById('btn-adapt').classList.toggle('active', t==='adaptive');
+  document.getElementById('btn-rat').classList.toggle('active', t==='rational');
+  simulate();
+}
+function setCB(t) {
+  cbPolicy = t;
+  document.getElementById('btn-opt').classList.toggle('active', t==='optimal');
+  document.getElementById('btn-none').classList.toggle('active', t==='none');
+  simulate();
+}
+function onSlider() {
+  const p = getP();
+  document.getElementById('val-kappa').textContent = p.kappa.toFixed(2);
+  document.getElementById('val-b').textContent     = p.b.toFixed(2);
+  document.getElementById('val-eps').textContent   = p.eps.toFixed(2);
+  document.getElementById('val-zeta').textContent  = p.zeta.toFixed(2);
+  document.getElementById('val-rho').textContent   = p.rho.toFixed(2);
+  simulate();
+}
+
+function getP() {
+  return {
+    kappa: +document.getElementById('sl-kappa').value,
+    b:     +document.getElementById('sl-b').value,
+    eps:   +document.getElementById('sl-eps').value,
+    zeta:  +document.getElementById('sl-zeta').value,
+    rho:   +document.getElementById('sl-rho').value,
+  };
+}
+
+// ── Simulate dynamics ────────────────────────────────────────────────────────
+function simulate() {
+  const p = getP();
+  const nu = p.kappa * p.b;
+
+  document.getElementById('d-nu').textContent = nu.toFixed(3);
+  document.getElementById('d-nk').textContent = (nu*p.kappa).toFixed(3);
+  updateFormula(p, nu);
+
+  const T = 25;
+  const yArr = [0], piArr = [PISTAR];
+  let eps_t = shockType==='demand' ? p.eps : 0;
+  let zeta_t = shockType==='supply' ? p.zeta : 0;
+
+  for (let t = 1; t <= T; t++) {
+    const eps  = shockType==='demand' ? eps_t  : 0;
+    const zeta = shockType==='supply' ? zeta_t : 0;
+
+    // Expectations
+    let pie;
+    if (expType === 'rational') {
+      pie = PISTAR; // anchored
+    } else {
+      pie = piArr[t-1]; // adaptive: last period's inflation
+    }
+
+    // For NKPC: need forward inflation expectation
+    let pi_next_exp;
+    if (pcType === 'nk' && expType === 'rational') {
+      // NKPC rational: simplified — use decay approximation
+      pi_next_exp = PISTAR + (piArr[t-1]-PISTAR)*p.rho;
+    } else {
+      pi_next_exp = pie;
+    }
+
+    const denom = 1 + nu*p.kappa;
+
+    let y_new, pi_new;
+    if (pcType === 'sw') {
+      // π = pie + κŷ  →  AD: ŷ = eps - ν(π-π*)
+      // Solve: ŷ = eps - ν(pie-π* + κŷ + zeta)
+      // ŷ(1+νκ) = eps - ν(pie-π*) - ν·zeta
+      const pie_dev = pie - PISTAR;
+      y_new  = (eps - nu*pie_dev - nu*zeta) / denom;
+      pi_new = pie + p.kappa*y_new + zeta;
+    } else {
+      // NKPC: π = θ·E{π_{t+1}} + κŷ + zeta (deviation form)
+      // Let pie_fwd = θ*(pi_next_exp - π*)
+      const fwd_dev = THETA*(pi_next_exp - PISTAR);
+      y_new  = (eps - nu*fwd_dev - nu*zeta) / denom;
+      pi_new = PISTAR + fwd_dev + p.kappa*y_new + zeta;
+    }
+
+    // Supply shock: if no CB response, don't apply MR
+    if (shockType==='supply' && cbPolicy==='none') {
+      const pie_dev = (piArr[t-1] - PISTAR);
+      y_new  = 0; // no output change
+      pi_new = pie + zeta + p.kappa*y_new;
+    }
+
+    yArr.push(y_new);
+    piArr.push(pi_new);
+
+    // Decay shock
+    eps_t  *= p.rho;
+    zeta_t *= p.rho;
+  }
+
+  drawPhase(yArr, piArr, p, nu);
+  drawASAD(yArr, piArr, p, nu);
+  drawTimeSeries('c-ygap', yArr, 'ŷₜ', C.teal);
+  drawTimeSeriesDev('c-pigap', piArr, 'πₜ − π*', C.blue);
+  updateNarrative(p, nu, yArr, piArr);
+}
+
+function updateFormula(p, nu) {
+  const box = document.getElementById('pc-formula-box');
+  let pcName = pcType==='sw' ? 'Sticky Wage' : 'NKPC';
+  let expName = expType==='adaptive' ? 'Adaptive' : 'Rational';
+  let formula = '';
+  if (pcType==='sw' && expType==='adaptive')
+    formula = 'πₜ = πₜ₋₁ + κŷₜ';
+  else if (pcType==='sw' && expType==='rational')
+    formula = 'πₜ = π* + κŷₜ';
+  else if (pcType==='nk' && expType==='adaptive')
+    formula = 'πₜ = θ·πₜ₋₁ + κŷₜ';
+  else
+    formula = 'πₜ = θ·𝔼{πₜ₊₁} + κŷₜ';
+  box.innerHTML = `<strong>${pcName} · ${expName}</strong><br>${formula}`;
+}
+
+// ── Drawing ──────────────────────────────────────────────────────────────────
+function setupCanvas(id) {
+  const el = document.getElementById(id);
+  const rect = el.parentElement.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  el.width  = rect.width  * dpr;
+  el.height = rect.height * dpr;
+  el.style.width  = rect.width  + 'px';
+  el.style.height = rect.height + 'px';
+  const ctx = el.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.W = rect.width;
+  ctx.H = rect.height;
+  return ctx;
+}
+
+function gridLines(ctx, pad, nX=5, nY=5) {
+  const {W,H} = ctx;
+  ctx.strokeStyle = C.grid;
+  ctx.lineWidth = 1;
+  for (let i=0; i<=nX; i++) {
+    const x = pad.l + i*(W-pad.l-pad.r)/nX;
+    ctx.beginPath(); ctx.moveTo(x,pad.t); ctx.lineTo(x,H-pad.b); ctx.stroke();
+  }
+  for (let i=0; i<=nY; i++) {
+    const y = pad.t + i*(H-pad.t-pad.b)/nY;
+    ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(W-pad.r,y); ctx.stroke();
+  }
+}
+
+function axes(ctx, pad) {
+  ctx.strokeStyle = C.ink2;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,ctx.H-pad.b);
+  ctx.moveTo(pad.l,ctx.H-pad.b); ctx.lineTo(ctx.W-pad.r,ctx.H-pad.b);
+  ctx.stroke();
+}
+
+function lbl(ctx, text, x, y, align='center', baseline='middle', color=C.ink3, size=9) {
+  ctx.save();
+  ctx.font = `${size}px 'JetBrains Mono',monospace`;
+  ctx.fillStyle = color;
+  ctx.textAlign = align;
+  ctx.textBaseline = baseline;
+  ctx.fillText(text, x, y);
+  ctx.restore();
+}
+
+function drawPhase(yArr, piArr, p, nu) {
+  const ctx = setupCanvas('c-phase');
+  const {W,H} = ctx;
+  const pad = {t:28,b:32,l:40,r:14};
+  const PW = W-pad.l-pad.r, PH = H-pad.t-pad.b;
+
+  const allY = yArr.map(Math.abs);
+  const yRange = Math.max(Math.max(...allY)*1.4, 0.5);
+  const allPi = piArr;
+  const piMin2 = Math.min(PISTAR*0.7, Math.min(...allPi)*0.95);
+  const piMax2 = Math.max(PISTAR*1.8, Math.max(...allPi)*1.05);
+
+  const mx = y => pad.l + (y+yRange)/(2*yRange)*PW;
+  const my = pi => pad.t + (1-(pi-piMin2)/(piMax2-piMin2))*PH;
+
+  gridLines(ctx, pad); axes(ctx, pad);
+  lbl(ctx, 'ŷ', W-pad.r+6, H-pad.b, 'left', 'middle');
+  lbl(ctx, 'π', pad.l-6, pad.t, 'right', 'top');
+  lbl(ctx, 'π*', pad.l-4, my(PISTAR), 'right', 'middle');
+
+  // π* and ŷ=0 lines
+  ctx.strokeStyle = C.ink3;
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(pad.l,my(PISTAR)); ctx.lineTo(W-pad.r,my(PISTAR)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(mx(0),pad.t); ctx.lineTo(mx(0),H-pad.b); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // AD line (static)
+  const adSlope = -nu;
+  const y1=-yRange, y2=yRange;
+  ctx.strokeStyle = C.amber;
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([6,3]);
+  ctx.beginPath();
+  ctx.moveTo(mx(y1), my(PISTAR + adSlope*y1));
+  ctx.lineTo(mx(y2), my(PISTAR + adSlope*y2));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  lbl(ctx, 'AD', mx(y2-0.3), my(PISTAR+adSlope*(y2-0.3))-10, 'center','bottom', C.amber, 9);
+
+  // AS₀ line
+  ctx.strokeStyle = C.rust;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(mx(y1), my(PISTAR+p.kappa*y1));
+  ctx.lineTo(mx(y2), my(PISTAR+p.kappa*y2));
+  ctx.stroke();
+  lbl(ctx, 'AS₀', mx(y2-0.3), my(PISTAR+p.kappa*(y2-0.3))-10, 'center','bottom', C.rust, 9);
+
+  // Trajectory
+  for (let t=0; t<yArr.length-1; t++) {
+    const col = PERIOD_COLORS[Math.min(t, PERIOD_COLORS.length-1)];
+    ctx.beginPath();
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([]);
+    ctx.moveTo(mx(yArr[t]), my(piArr[t]));
+    ctx.lineTo(mx(yArr[t+1]), my(piArr[t+1]));
+    ctx.stroke();
+  }
+
+  // Dots with labels
+  const show = Math.min(yArr.length-1, 8);
+  const labels = 'ABCDEFGHI';
+  for (let t=0; t<=show; t++) {
+    const col = t===0 ? C.teal : PERIOD_COLORS[Math.min(t-1, PERIOD_COLORS.length-1)];
+    const x = mx(yArr[t]), y = my(piArr[t]);
+    ctx.beginPath();
+    ctx.arc(x, y, 4.5, 0, Math.PI*2);
+    ctx.fillStyle = col;
+    ctx.fill();
+    ctx.strokeStyle = '#FDFAF4';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    lbl(ctx, labels[t], x+7, y-7, 'left','bottom', col, 9);
+  }
+}
+
+function drawASAD(yArr, piArr, p, nu) {
+  // Same as phase but shows period-labelled AS curves shifting
+  const ctx = setupCanvas('c-asad');
+  const {W,H} = ctx;
+  const pad = {t:28,b:32,l:40,r:14};
+  const PW = W-pad.l-pad.r, PH = H-pad.t-pad.b;
+
+  const allY = yArr.map(Math.abs);
+  const yRange = Math.max(Math.max(...allY)*1.4, 0.5);
+  const allPi = piArr;
+  const piMin2 = Math.min(PISTAR*0.7, Math.min(...allPi)*0.95);
+  const piMax2 = Math.max(PISTAR*1.8, Math.max(...allPi)*1.05);
+
+  const mx = y => pad.l + (y+yRange)/(2*yRange)*PW;
+  const my = pi => pad.t + (1-(pi-piMin2)/(piMax2-piMin2))*PH;
+
+  gridLines(ctx, pad); axes(ctx, pad);
+  lbl(ctx, 'ŷ', W-pad.r+6, H-pad.b, 'left', 'middle');
+  lbl(ctx, 'π', pad.l-6, pad.t, 'right', 'top');
+
+  ctx.strokeStyle = C.ink3; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(pad.l,my(PISTAR)); ctx.lineTo(W-pad.r,my(PISTAR)); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(mx(0),pad.t); ctx.lineTo(mx(0),H-pad.b); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // AD
+  const y1=-yRange, y2=yRange;
+  ctx.strokeStyle=C.amber; ctx.lineWidth=1.5; ctx.setLineDash([6,3]);
+  ctx.beginPath();
+  ctx.moveTo(mx(y1), my(PISTAR - nu*y1));
+  ctx.lineTo(mx(y2), my(PISTAR - nu*y2));
+  ctx.stroke();
+  ctx.setLineDash([]);
+  lbl(ctx, 'AD', mx(y1+0.3), my(PISTAR-nu*(y1+0.3))+12, 'center','top', C.amber, 9);
+
+  // Shifting AS curves (show first 4)
+  const asCount = Math.min(piArr.length, 5);
+  for (let t=0; t<asCount; t++) {
+    const intercept = piArr[t];
+    const col = t===0 ? C.rust : `rgba(176,64,32,${0.5-t*0.08})`;
+    ctx.strokeStyle = col;
+    ctx.lineWidth = t===0 ? 2 : 1;
+    ctx.setLineDash(t===0 ? [] : [4,3]);
+    ctx.beginPath();
+    ctx.moveTo(mx(y1), my(intercept + p.kappa*y1 - p.kappa*yArr[t]));
+    ctx.lineTo(mx(y2), my(intercept + p.kappa*y2 - p.kappa*yArr[t]));
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Equilibrium points
+  const show = Math.min(yArr.length-1, 6);
+  const labels = 'ABCDEFG';
+  for (let t=0; t<=show; t++) {
+    const col = t===0 ? C.teal : PERIOD_COLORS[Math.min(t-1, PERIOD_COLORS.length-1)];
+    const x = mx(yArr[t]), y = my(piArr[t]);
+    ctx.beginPath();
+    ctx.arc(x, y, 4.5, 0, Math.PI*2);
+    ctx.fillStyle = col;
+    ctx.fill();
+    ctx.strokeStyle = '#FDFAF4';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    lbl(ctx, labels[t], x+7, y-7, 'left','bottom', col, 9);
+  }
+}
+
+function drawTimeSeries(id, arr, label, color) {
+  const ctx = setupCanvas(id);
+  const {W,H} = ctx;
+  const pad = {t:24,b:28,l:38,r:14};
+  const PW = W-pad.l-pad.r, PH = H-pad.t-pad.b;
+  const T = arr.length-1;
+
+  const maxV = Math.max(Math.abs(Math.max(...arr)), Math.abs(Math.min(...arr)), 0.3);
+  const mx = t => pad.l + (t/T)*PW;
+  const my = v => pad.t + (1-(v+maxV)/(2*maxV))*PH;
+
+  gridLines(ctx, pad, T, 4); axes(ctx, pad);
+
+  // zero line
+  ctx.strokeStyle = C.ink3; ctx.lineWidth=1; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(pad.l,my(0)); ctx.lineTo(W-pad.r,my(0)); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Series
+  ctx.beginPath();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  for (let t=0; t<=T; t++) {
+    const x = mx(t), y = my(arr[t]);
+    t===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+
+  // Dots
+  for (let t=0; t<=T; t++) {
+    ctx.beginPath();
+    ctx.arc(mx(t), my(arr[t]), 3.5, 0, Math.PI*2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.strokeStyle='#FDFAF4'; ctx.lineWidth=1; ctx.stroke();
+  }
+
+  lbl(ctx, 'Period t', W/2, H-2, 'center', 'bottom', C.ink3, 9);
+  lbl(ctx, '0', mx(0), H-pad.b+12, 'center','top', C.ink3, 8);
+  lbl(ctx, '10', mx(10), H-pad.b+12, 'center','top', C.ink3, 8);
+  lbl(ctx, '20', mx(20), H-pad.b+12, 'center','top', C.ink3, 8);
+  lbl(ctx, '0', pad.l-4, my(0), 'right','middle', C.ink3, 8);
+}
+
+function drawTimeSeriesDev(id, arr, label, color) {
+  const devArr = arr.map(pi => pi - PISTAR);
+  drawTimeSeries(id, devArr, label, color);
+}
+
+function updateNarrative(p, nu, yArr, piArr) {
+  const el = document.getElementById('narr');
+  const eps  = p.eps, zeta = p.zeta;
+  const rho  = p.rho;
+  let text = '';
+
+  const pcLabel  = pcType==='sw' ? 'Sticky Wage' : 'NKPC';
+  const expLabel = expType==='adaptive' ? 'Adaptive' : 'Rational';
+  const persist  = rho > 0.3 ? 'persistent' : 'i.i.d.';
+  const cbLabel  = cbPolicy==='optimal' ? 'optimal CB response' : 'no CB response';
+
+  if (shockType==='demand') {
+    const B_y   = yArr[1]?.toFixed(3) ?? '—';
+    const B_pi  = piArr[1]?.toFixed(3) ?? '—';
+    text = `<strong>${pcLabel} · ${expLabel} · ${persist}</strong><br>
+      A positive demand shock (ε = ${eps.toFixed(2)}) shifts the AD curve outward. 
+      In period 1, the economy moves from <strong>A</strong> to <strong>B</strong>: 
+      ŷ = <span class="eq-h">${B_y}</span>, π = <span class="eq-h">${B_pi}</span>.
+      ${expLabel==='Adaptive'
+        ? `Under adaptive expectations, last period's inflation feeds directly into wage-setting. 
+           The AS curve shifts up each period, the CB tightens further, and the economy spirals 
+           back slowly — this is the <em>costliest scenario</em>, with a high sacrifice ratio.`
+        : `Under rational expectations, agents anticipate the CB will restore π*. 
+           The AS curve is anchored; adjustment is rapid (one period for i.i.d. shocks). 
+           <em>Divine coincidence</em> applies — no trade-off exists.`}`;
+  } else {
+    const B_y   = yArr[1]?.toFixed(3) ?? '—';
+    const B_pi  = ((piArr[1]??PISTAR) - PISTAR).toFixed(3);
+    text = `<strong>${pcLabel} · ${expLabel} · ${persist} · ${cbLabel}</strong><br>
+      A supply shock (ζ = ${zeta.toFixed(2)}) shifts AS upward — <em>stagflation</em>. 
+      Period 1 equilibrium: ŷ = <span class="eq-h">${B_y}</span>, 
+      π − π* = <span class="eq-h">${B_pi}</span>.
+      ${expLabel==='Adaptive'
+        ? `With adaptive expectations, above-target inflation feeds into next period's wages, 
+           shifting AS further upward. Without CB credibility, 
+           the spiral continues even after the shock has passed.`
+        : `With rational expectations and CB credibility, the AS curve is anchored. 
+           As the shock decays, the CB smoothly follows the MR rule. 
+           No inflationary spiral — sacrifice ratio is substantially lower.`}
+      ${cbPolicy==='none' && shockType==='supply' ? `<br><br><strong>No-response case:</strong> 
+           Without CB tightening, inflation absorbs the full shock. 
+           Output is protected but price stability is sacrificed entirely.` : ''}`;
+  }
+  el.innerHTML = text;
+}
+
+window.addEventListener('resize', simulate);
+window.addEventListener('load', simulate);
+</script>
+</body>
+</html>

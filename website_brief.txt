@@ -1,0 +1,242 @@
+Personal Website Brief
+Design & Content Specification for Developer Handoff
+Economics Honours Student  |  Data Analysis  |  Research
+
+1. Overview & Goals
+This document outlines the full design brief and content requirements for a personal portfolio website. It is intended to be handed directly to the developer building the site. Each section describes what content should appear, how it should look and function, and any technical details relevant to implementation.
+
+The site should achieve two things simultaneously:
+	•	Project professional credibility as an economics honours student and researcher.
+	•	Convey genuine personality — curiosity, interests, and life outside of academia.
+
+2. Visual Design Direction
+2.1 Aesthetic
+The overall feel should be clean, dark, and polished — like a Bloomberg terminal crossed with a well-designed academic journal. Think structured and data-forward, but with room for personality. Avoid anything that looks like a generic template.
+
+2.2 Colour Palette
+Suggested palette (developer may refine, but should stay in this direction):
+
+Primary Background
+#0F1923 or similar near-black navy
+Main page background
+Secondary / Cards
+#1B2A4A
+Section cards, nav
+Accent / CTA
+#2C5F9E or electric blue
+Buttons, links, highlights
+Text
+#E8ECF0 / #FFFFFF
+Light text on dark backgrounds
+
+2.3 Typography
+	•	Use a clean sans-serif for body and UI (e.g. Inter, DM Sans, or similar).
+	•	Headings can use a slightly heavier weight of the same font, or a contrasting serif for elegance (optional).
+	•	Data/chart labels: monospaced or tabular-numerals style recommended.
+
+2.4 General Layout Principles
+	•	Single-page scroll layout with anchor navigation (or multi-page with smooth transitions).
+	•	Sections should feel distinct but part of the same visual system.
+	•	Generous whitespace — don’t cram content.
+	•	Subtle animation on scroll (fade-in / slide-up) is welcome; keep it tasteful.
+	•	Fully responsive (desktop-first, but mobile must work).
+
+3. Site Sections
+The following sections should appear on the site, roughly in this order. Developer can adjust layout and ordering based on flow.
+
+3.1  Hero / Landing Section
+The first thing visitors see. Should immediately communicate who this person is.
+
+Content to include:
+	•	Name (large, prominent).
+	•	Short tagline — e.g. “Economics Honours Student | Data Analyst | Researcher” (developer/owner to finalise wording).
+	•	Brief one-liner or animated subtitle cycling through interests/skills.
+	•	Navigation links to other sections.
+	•	Optional: subtle animated background (data chart motif, graph lines, or moving particles — nothing distracting).
+
+3.2  About & Personality Section
+This section should feel human. It’s not just a bio — it’s where personality comes through.
+
+Content to include:
+Written blurb:
+	•	A short paragraph introducing who this person is: econ honours student, loves data, curious about how economies work at a macro level.
+	•	Convey that there’s a person behind the graphs — not just an academic.
+
+Interests / hobbies (display as icons + labels or cards):
+	•	Travel & food — loves visiting new places and trying local food.
+	•	Sports (general).
+	•	Music — include a link to a personal playlist (Spotify or similar). Could display as an embedded Spotify widget or a stylised playlist card with a link.
+	•	Rock climbing.
+	•	Hiking.
+
+Design note:
+Use cards or icon tiles for interests. Keep it visually light and fun relative to other sections.
+
+3.3  Experience Section
+A professional timeline or card-based layout showing work history. Each entry should include a photo/logo, role title, company name, dates, and a short description.
+
+Entries to include:
+
+Entry 1: Economic Research Internship — Frontier
+Role:
+Economic Research Intern
+Organisation:
+Frontier
+Type:
+Research / Economics
+Visual:
+Include company logo or a stock photo related to research/economics.
+Description:
+Brief paragraph describing research conducted, methodologies used, and key outputs. [Owner to supply exact text / will provide CV for reference.]
+
+Entry 2: Consulting Internship — Richardson Holdings
+Role:
+Consulting Intern
+Organisation:
+Richardson Holdings
+Type:
+Consulting
+Visual:
+Company logo or consulting-themed image.
+Description:
+Brief paragraph on consulting projects, client-facing work, deliverables produced. [Owner to supply text.]
+
+Entry 3: Sales Experience
+Role:
+Sales (details TBD by owner)
+Type:
+Sales / Commercial
+Visual:
+Relevant image.
+Description:
+Short description of sales role(s) and skills developed.
+
+Design note: A vertical timeline or stacked card layout works well. Each card should have a consistent structure: logo/image on one side, text on the other. Subtle hover effects encouraged.
+
+3.4  Projects Section
+The centrepiece of the site from a technical credibility standpoint. Showcase academic and internship projects. Each project should have a title, brief description, tools used, and either an embedded visual, snippet, or link.
+
+Projects to include:
+
+Project 1: Consumer Geographies Report  (Internship — Richardson Holdings)
+Details:
+	•	Description: Analysis of how consumption patterns are shifting across districts, with forecasts on expected trends.
+	•	Tools used: ArcGIS, nightlight satellite data.
+	•	Display: Show a snippet or thumbnail of the report alongside the description. A small map visual (from ArcGIS output) would be ideal if available. Include a brief methodology note mentioning nightlight data as a proxy.
+	•	Tone: Frame as client-facing deliverable — demonstrates real-world applied research.
+
+Project 2: Personal Remittances — Cyclical Analysis  (Internship Research)
+Details:
+	•	Description: Research on how personal remittances move cyclically — patterns relative to economic cycles, potential drivers, and implications.
+	•	Display: Include a small graph (to be supplied by owner) showing the cyclical movement. Add a short description excerpt from the written report.
+	•	Tone: Academic-research feel. Demonstrates quantitative + written research skills.
+
+Project 3: ECON366 Data Visualisation — Plotly Graph
+Details:
+	•	Description: Data analysis project completed for ECON366. Built an interactive visualisation using Plotly.
+	•	Display: Embed the Plotly graph directly on the page if possible (HTML embed), or display a screenshot with a link to the interactive version.
+	•	Tools used: Python / Plotly.
+	•	Tone: Demonstrates hands-on coding and data viz skills.
+
+Project 4: Alberta Energy — Oil Production & WTI Price Forecasting
+Details:
+	•	Description: Analysis of Alberta’s oil/energy production alongside WTI crude price forecasting under different global conditions (e.g. geopolitical scenarios, demand shocks, OPEC decisions).
+	•	Display: Include a relevant chart or forecast visualisation. Short write-up describing the model/approach.
+	•	Tools used: [Owner to specify — e.g. R, Python, Excel forecasting].
+	•	Tone: Regionally relevant (Calgary/Alberta context), strong analytical framing.
+
+Project 5: Central Bank Inflation & Interest Rate Paper
+Details:
+	•	Description: Academic paper examining central bank responses to inflation — how interest rate decisions track inflation dynamics.
+	•	Display: Show a snippet or excerpt from the paper (to be supplied by owner). A small chart of inflation vs. rate movements would complement well.
+	•	Tone: Academic. Demonstrates theoretical knowledge and written communication.
+	•	Note: Owner will upload a copy of this paper for reference.
+
+3.5  Interactive Element — Three Equations / General Equilibrium Model
+This is the signature interactive feature of the site. It demonstrates macroeconomic intuition in an engaging, visual way and sets this portfolio apart from a standard CV website.
+
+What it is
+An interactive macroeconomic impulse-response diagram based on the Three Equations Model (or the Four Equations General Equilibrium Model) taught in macroeconomics. The diagram shows how the economy responds to a shock under different conditions.
+
+Suggested placement
+Inside or below the Projects section — either as its own sub-section labelled “Interactive Model” or as a featured project card that expands.
+
+Functionality
+The user should be able to:
+	•	Select the type of shock (e.g. demand shock, supply/inflation shock, interest rate shock).
+	•	Adjust parameters / conditions using sliders or toggle buttons:
+	•	Central bank hawkishness (aggressive vs. dovish response).
+	•	Rational vs. adaptive expectations.
+	•	Shock persistence (temporary vs. permanent).
+	•	Degree of wage/price rigidity (optional, if feasible).
+	•	See the impulse-response paths animate — showing how output gap, inflation, and the interest rate evolve over time.
+	•	Optionally display the IS curve, PC curve (Phillips Curve), and MR rule graphically, with the equilibrium path traced through.
+
+Technical notes:
+	•	Can be built in JavaScript using a charting library (D3.js, Plotly.js, or Chart.js recommended).
+	•	The underlying model equations should be coded parametrically so parameter sliders update the chart in real time.
+	•	Should be self-contained and load client-side (no server-side dependencies needed).
+	•	Add a small legend or tooltip explaining what each curve/variable represents — accessible to non-economists.
+
+4. Content Assets to Supply
+The following items need to be provided by the site owner to the developer. Items marked [PENDING] have not been supplied yet.
+
+Asset
+Description
+Status
+CV / Resume
+Full CV for experience section content
+PENDING
+Consumer Geographies Report
+Snippet or PDF excerpt for project card
+PENDING
+ArcGIS / Nightlight Visual
+Map image or screenshot for project card
+PENDING
+Remittances Graph
+Chart showing cyclical remittance pattern
+PENDING
+Remittances Report Excerpt
+Short written excerpt for description blurb
+PENDING
+ECON366 Plotly Graph
+Interactive HTML or screenshot of Plotly viz
+PENDING
+Alberta Energy / WTI Chart
+Forecast chart or data visualisation
+PENDING
+Inflation / Interest Rate Paper
+Excerpt or PDF of central bank paper
+PENDING
+Spotify Playlist Link
+URL to personal playlist for music section
+PENDING
+Experience Photos / Logos
+Logos or photos for each work experience
+PENDING
+Headshot / Profile Photo
+Professional or semi-casual photo for hero
+PENDING
+
+5. Technical Notes for Developer
+
+	•	Framework: Developer’s choice — React, Next.js, or plain HTML/CSS/JS all acceptable. Performance matters more than stack.
+	•	Interactive model (Section 3.5): Recommend D3.js or Plotly.js. Should be modular so it can be updated if model equations change.
+	•	Charts / Graphs: Embed as interactive where possible (Plotly HTML). Fall back to high-res images with hover tooltips.
+	•	Spotify embed: Use Spotify’s standard iframe embed widget in the personality section.
+	•	Hosting: TBD by owner. Vercel, Netlify, or GitHub Pages all work.
+	•	Analytics: Optional — Google Analytics or Plausible if owner wants page view data.
+	•	SEO: Include meta title, description, and Open Graph tags for when the link is shared.
+
+6. Notes & Open Questions
+
+Items to confirm with owner before build:
+	•	Finalise tagline / one-liner copy for hero section.
+	•	Confirm exact experience dates, titles, and descriptions for each role (from CV).
+	•	Confirm whether ECON366 Plotly graph can be embedded as interactive HTML or must be a static image.
+	•	Decide on exact model variant for interactive section: Three Equations or Four Equations GE model?
+	•	Confirm placement preference for interactive model (standalone section vs. inside Projects).
+	•	Decide whether to include a contact / CV download section at the bottom.
+	•	Confirm domain name (if purchased) or hosting method.
+
+Document prepared for developer handoff  —  update as assets are gathered and decisions are finalised.

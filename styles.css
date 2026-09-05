@@ -137,11 +137,13 @@ a {
 .topbar__inner {
   width: min(var(--container), calc(100% - 40px));
   margin: 0 auto;
-  height: 68px;
+  min-height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+  flex-wrap: wrap;
+  padding: 10px 0;
 }
 
 .brand {

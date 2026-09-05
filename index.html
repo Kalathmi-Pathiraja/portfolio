@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kalathmi Pathiraja | Economics (Hons) • Data • Research</title>
+    <title>Kalathmi Pathiraja | Economics • Computer Science • Applied Finance</title>
     <meta
       name="description"
-      content="Kalathmi Pathiraja. BA in Economics (Honours) student at the University of Alberta. Data analysis, research, and projects."
+      content="Kalathmi Pathiraja. Honours Economics & Computer Science student at the University of Alberta, building financial models and software for applied research."
     />
 
     <meta property="og:title" content="Kalathmi Pathiraja | Portfolio" />
     <meta
       property="og:description"
-      content="Economics Honours student • Data analysis • Research. Projects, experience, and an interactive macro model."
+      content="Software, data, and applied economics."
     />
     <meta property="og:type" content="website" />
 
@@ -23,9 +23,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
-
-    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script defer src="./main.js"></script>
+    <script defer src="./skills-graph.js"></script>
   </head>
 
   <body>
@@ -38,16 +38,12 @@
         </a>
 
         <nav id="nav" class="nav nav--center" aria-label="Primary">
-          <a href="#projects">Work</a>
           <a href="#about">About</a>
-          <a href="#model">Model</a>
+          <a href="#experience">Work</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
           <a href="#contact">Contact</a>
         </nav>
-
-        <button class="menu-btn mono nav-toggle" type="button" aria-expanded="false" aria-controls="nav">
-          <span>Menu</span>
-          <span aria-hidden="true">≡</span>
-        </button>
       </div>
     </header>
 
@@ -99,7 +95,7 @@
             <div class="hero__left">
               <div class="hero__hello mono">
                 <span class="hero__dash" aria-hidden="true"></span>
-                <span>Hi, I’m Kalathmi</span>
+                <span>Hi, I’m</span>
               </div>
 
               <h1 class="hero__headline">
@@ -115,11 +111,11 @@
               </div>
 
               <div class="hero__filters" aria-label="Industry filters">
-                <button class="pill is-active" type="button">Macroeconomics</button>
-                <button class="pill" type="button">Forecasting</button>
-                <button class="pill" type="button">Energy</button>
-                <button class="pill" type="button">Policy</button>
-                <button class="pill" type="button">Geospatial</button>
+                <button class="pill is-active" type="button">Software</button>
+                <button class="pill" type="button">Modelling</button>
+                <button class="pill" type="button">Applied Economics</button>
+                <button class="pill" type="button">Python</button>
+                <button class="pill" type="button">Consulting</button>
               </div>
             </div>
 
@@ -128,17 +124,17 @@
                 <div class="hero__bio-top">
                   <span class="hero__dash" aria-hidden="true"></span>
                   <span class="mono hero__bio-kicker">
-                    BA in Economics (Honours), University of Alberta. Entering 4th year in the fall.
+                    4th year Economics & Computer Science student, University of Alberta.
                   </span>
                 </div>
                 <p class="hero__bio-text">
-                  I build analysis that is clear, decision-ready, and grounded in data. My interests sit at the
-                  intersection of macroeconomics, forecasting, and applied research for real-world outcomes.
+                  I like turning financial and economic questions into working code: models, simulations, and
+                  platforms that make analysis faster to run and easier to trust.
                 </p>
 
                 <div class="hero__code mono" aria-hidden="true">
-                  <div><span class="hero__code-k">field</span> = <span class="hero__code-v">"macro"</span></div>
-                  <div><span class="hero__code-k">tooling</span> = <span class="hero__code-v">["python","r","sql","power bi"]</span></div>
+                  <div><span class="hero__code-k">field</span> = <span class="hero__code-v">"economics + finance + software"</span></div>
+                  <div><span class="hero__code-k">tooling</span> = <span class="hero__code-v">["python","r","excel","sql"]</span></div>
                   <div><span class="hero__code-k">status</span> = <span class="hero__code-v" data-rotator></span></div>
                 </div>
 
@@ -168,8 +164,8 @@
           <div class="section__head reveal">
             <h2>About</h2>
             <p class="lede">
-              I am an economics honours student who likes understanding how economies move, and using data to explain the
-              why behind the headlines.
+              My interest sits between finance, economics, and engineering: the kind of work where a clean answer
+              only earns its keep once someone has shipped it as something people can use.
             </p>
           </div>
 
@@ -177,13 +173,14 @@
             <div class="card reveal">
               <h3>Quick intro</h3>
               <p>
-                I am pursuing a BA in Economics (Honours). I like macro questions, forecasting, and building clean
-                analysis that holds up under scrutiny and reads clearly.
+                I'm pursuing a combined degree in Economics and Computer Science. Most of what I build starts as a
+                spreadsheet or a research question and ends up as a tool: a backtest, a dashboard, an app someone can
+                actually click through.
               </p>
               <div class="stats mono">
                 <div class="stat">
                   <div class="stat__k">Program</div>
-                  <div class="stat__v">BA, Economics (Honours)</div>
+                  <div class="stat__v">BA, Economics & Computer Science</div>
                 </div>
                 <div class="stat">
                   <div class="stat__k">University</div>
@@ -206,37 +203,36 @@
               <h3>Outside the graphs</h3>
               <div class="tiles">
                 <div class="tile">
-                  <div class="tile__icon" aria-hidden="true">✦</div>
+                  <div class="tile__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" /></svg>
+                  </div>
                   <div class="tile__text">
                     <div class="tile__title">Travel & food</div>
                     <div class="tile__sub">new places, local flavours</div>
                   </div>
                 </div>
                 <div class="tile">
-                  <div class="tile__icon" aria-hidden="true">◍</div>
+                  <div class="tile__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" /><path d="M11 12 5.12 2.2" /><path d="m13 12 5.88-9.8" /><path d="M8 7h8" /><circle cx="12" cy="17" r="5" /><path d="M12 18v-2h-.5" /></svg>
+                  </div>
                   <div class="tile__text">
                     <div class="tile__title">Sports</div>
-                    <div class="tile__sub">always up for a game</div>
+                    <div class="tile__sub">swimming, karate, and badminton</div>
                   </div>
                 </div>
                 <div class="tile">
-                  <div class="tile__icon" aria-hidden="true">♫</div>
-                  <div class="tile__text">
-                    <div class="tile__title">Music</div>
-                    <div class="tile__sub">
-                      <a href="#" class="inline-link" data-playlist-link>playlist link (add)</a>
-                    </div>
+                  <div class="tile__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z" /></svg>
                   </div>
-                </div>
-                <div class="tile">
-                  <div class="tile__icon" aria-hidden="true">⛰</div>
                   <div class="tile__text">
                     <div class="tile__title">Rock climbing</div>
                     <div class="tile__sub">problem solving, vertically</div>
                   </div>
                 </div>
                 <div class="tile">
-                  <div class="tile__icon" aria-hidden="true">⤒</div>
+                  <div class="tile__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z" /><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z" /><path d="M16 17h4" /><path d="M4 13h4" /></svg>
+                  </div>
                   <div class="tile__text">
                     <div class="tile__title">Hiking</div>
                     <div class="tile__sub">big views, quiet thoughts</div>
@@ -277,25 +273,65 @@
           <div class="timeline">
             <article class="xp card reveal">
               <div class="xp__media">
+                <div class="xp__logo-wrap"><img src="./work-logos/hugessen.png" alt="Hugessen Consulting logo" class="xp__logo" /></div>
+                <div class="xp__badge mono">Hugessen Consulting</div>
+                <div class="xp__meta mono">Executive compensation</div>
+              </div>
+              <div class="xp__content">
+                <div class="xp__role">
+                  <h3>Technology Analyst</h3>
+                  <p class="muted mono">Sep 2026 to Present</p>
+                  <ul class="bullets">
+                    <li>
+                      Design, build, and maintain the Hugessen Advisory Platform (FastAPI + React), the firm's internal
+                      executive compensation platform, extending it with new statistical and simulation tools as
+                      engagement needs evolve.
+                    </li>
+                    <li>
+                      Develop and test Monte Carlo and stochastic valuation models for equity-based pay instruments,
+                      automate reporting pipelines, and ship new platform features based on ongoing project proposals.
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="xp__role">
+                  <h3>Summer Analyst</h3>
+                  <p class="muted mono">May 2026 to Sep 2026</p>
+                  <ul class="bullets">
+                    <li>
+                      Built executive compensation benchmarking and peer positioning analysis for client engagements,
+                      drawing on proxy-sourced data.
+                    </li>
+                    <li>
+                      Conducted competitive market reviews benchmarking the firm's engagement footprint against the
+                      broader TSX Composite.
+                    </li>
+                    <li>
+                      Backtested regulatory scoring frameworks (ISS, Glass Lewis) to assess pay-for-performance
+                      alignment and vote risk across proxy cycles.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+
+            <article class="xp card reveal">
+              <div class="xp__media">
                 <div class="xp__logo-wrap"><img src="./work-logos/frontier.png" alt="Frontier Research logo" class="xp__logo" /></div>
                 <div class="xp__badge mono">Frontier Research</div>
                 <div class="xp__meta mono">Economic research</div>
               </div>
               <div class="xp__content">
                 <h3>Economic Research Intern</h3>
-                <p class="muted mono">May 2025 to Present</p>
+                <p class="muted mono">May 2025 to September 2025</p>
                 <ul class="bullets">
                   <li>
-                    Improved forecasting accuracy for FX rates, bond yields, and interest rates by 10 percent through
-                    Python time series models and backtesting (pandas, statsmodels).
+                    Authored data-driven reports analyzing consumer geographies, remittance trends, and global trade
+                    flows, translating economic and market data into clear, decision-ready analysis.
                   </li>
                   <li>
-                    Reduced scenario analysis turnaround time by 40 percent by automating Monte Carlo stress tests for
-                    policy and market shock assessments.
-                  </li>
-                  <li>
-                    Authored data driven reports on consumer geographies, remittance trends, and major global trade
-                    flows.
+                    Delivered research findings to Tier-1 banks and central bank officials, supporting policy and
+                    market shock assessments with timely, well-sourced writing.
                   </li>
                 </ul>
               </div>
@@ -382,13 +418,78 @@
         <div class="container">
           <div class="section__head reveal">
             <h2>Projects</h2>
-            <p class="lede">Selected academic and internship work in analysis, writing, and visual storytelling.</p>
+            <p class="lede">Selected client, internship, and academic work in analysis, writing, and visual storytelling.</p>
           </div>
 
           <div class="grid">
             <article class="project card reveal">
               <div class="project__media">
-                <img src="./assets/web/consumer-geo-1.png" alt="Consumer geographies report screenshot" loading="lazy" />
+                <img
+                  src="./hugessen-work/ltip-valuation-model.png"
+                  alt="LTIP instrument valuation model: simulated 60-day average share price paths with hurdle summary table"
+                  style="object-position: 50% 38%"
+                  data-lightbox
+                  loading="lazy"
+                />
+              </div>
+              <div class="project__body">
+                <h3>LTIP Instrument Valuation Model</h3>
+                <p class="muted mono">Hugessen · Advisory Platform</p>
+                <p>
+                  A stochastic valuation tool for equity-based incentive awards, using Monte Carlo simulation and
+                  geometric Brownian motion to price awards against performance hurdles more accurately than
+                  traditional static valuation methods.
+                </p>
+                <div class="tags mono"><span>Monte Carlo</span><span>GBM</span><span>Python</span></div>
+              </div>
+            </article>
+
+            <article class="project card reveal">
+              <div class="project__media">
+                <img
+                  src="./hugessen-work/stip-payout-tool.png"
+                  alt="STIP payout tool: payout multiplier curve against performance achievement with threshold, target, and cap controls"
+                  style="object-position: 50% 22%"
+                  data-lightbox
+                  loading="lazy"
+                />
+              </div>
+              <div class="project__body">
+                <h3>STIP Payout Tool</h3>
+                <p class="muted mono">Hugessen · Advisory Platform</p>
+                <p>
+                  Models short-term incentive payout curves against performance achievement, letting plan designers
+                  adjust the underlying thresholds and caps and see how the payout shape responds in real time.
+                </p>
+                <div class="tags mono"><span>Scenario modelling</span><span>React</span><span>FastAPI</span></div>
+              </div>
+            </article>
+
+            <article class="project card reveal">
+              <div class="project__media">
+                <img
+                  src="./hugessen-work/ltip-payout-tool.png"
+                  alt="LTIP payout tool: bear, base, and bull scenario tiles with a vehicle composition chart showing payout distribution across RSU, PSU, and options"
+                  style="object-position: 50% 46%"
+                  data-lightbox
+                  loading="lazy"
+                />
+              </div>
+              <div class="project__body">
+                <h3>LTIP Payout Tool</h3>
+                <p class="muted mono">Hugessen · Advisory Platform</p>
+                <p>
+                  Projects long-term incentive value across a range of market scenarios, breaking the payout down by
+                  award type so plan designers can see how outcomes shift with performance and market conditions.
+                </p>
+                <div class="tags mono"><span>Scenario modelling</span><span>RSU / PSU / Options</span><span>React</span></div>
+              </div>
+            </article>
+
+
+            <article class="project card reveal">
+              <div class="project__media">
+                <img src="./assets/web/consumer-geo-1.png" alt="Consumer geographies report screenshot" data-lightbox loading="lazy" />
               </div>
               <div class="project__body">
                 <h3>Consumer Geographies Report</h3>
@@ -405,7 +506,7 @@
 
             <article class="project card reveal">
               <div class="project__media">
-                <img src="./assets/web/remittances-2.png" alt="Personal remittances report screenshot" loading="lazy" />
+                <img src="./assets/web/remittances-2.png" alt="Personal remittances report screenshot" data-lightbox loading="lazy" />
               </div>
               <div class="project__body">
                 <h3>Personal Remittances, Cyclical Analysis</h3>
@@ -420,23 +521,9 @@
               </div>
             </article>
 
-            <article class="project card reveal project--chart-focus">
-              <div class="project__media project__media--iframe project__media--tall">
-                <iframe
-                  title="Mapping out China's solar PV exports"
-                  loading="lazy"
-                  src="./assets/econ%20366%20projects/kalathmi_pathiraja.html"
-                ></iframe>
-              </div>
-              <div class="project__body">
-                <h3>Mapping out China's solar PV exports</h3>
-                <p class="muted mono">ECON 366 · interactive</p>
-              </div>
-            </article>
-
             <article class="project card reveal">
               <div class="project__media">
-                <img src="./assets/web/inflation-paper-1.png" alt="Inflation and interest rates paper screenshot" loading="lazy" />
+                <img src="./assets/web/inflation-paper-1.png" alt="Inflation and interest rates paper screenshot" data-lightbox loading="lazy" />
               </div>
               <div class="project__body">
                 <h3>Central Bank Inflation & Interest Rates</h3>
@@ -451,31 +538,31 @@
 
             <article class="project card reveal">
               <div class="project__media">
-                <img src="./claude-req/alberta-wcs.png" alt="WCS Crude Oil Price Scenarios 2025" loading="lazy" />
+                <img src="./claude-req/alberta-wcs.png" alt="WCS Crude Oil Price Scenarios 2025" data-lightbox loading="lazy" />
               </div>
               <div class="project__body">
                 <h3>WCS Crude Oil Prices</h3>
                 <p class="muted mono">Alberta energy series · 1 of 3</p>
-                <p>Western Canadian Select benchmark pricing over time — the starting point for understanding Alberta's energy revenue and the persistent WCS–WTI differential driven by landlocked supply and pipeline constraints.</p>
+                <p>Western Canadian Select benchmark pricing over time: the starting point for understanding Alberta's energy revenue and the persistent WCS–WTI differential driven by landlocked supply and pipeline constraints.</p>
                 <div class="tags mono"><span>Energy</span><span>Alberta</span><span>WCS</span></div>
               </div>
             </article>
 
             <article class="project card reveal">
               <div class="project__media">
-                <img src="./claude-req/alberta-merit-order.png" alt="Alberta Energy Merit Order" loading="lazy" />
+                <img src="./claude-req/alberta-merit-order.png" alt="Alberta Energy Merit Order" data-lightbox loading="lazy" />
               </div>
               <div class="project__body">
                 <h3>Alberta Merit Order</h3>
                 <p class="muted mono">Alberta energy series · 2 of 3</p>
-                <p>The merit order stacks generation sources by marginal cost — showing how natural gas, coal, wind, and hydro compete to set the pool price. The shape of this curve explains why price spikes happen and when renewables start displacing thermal generation.</p>
+                <p>The merit order stacks generation sources by marginal cost, showing how natural gas, coal, wind, and hydro compete to set the pool price. The shape of this curve explains why price spikes happen and when renewables start displacing thermal generation.</p>
                 <div class="tags mono"><span>Power markets</span><span>Dispatch</span><span>Alberta</span></div>
               </div>
             </article>
 
             <article class="project card reveal">
               <div class="project__media">
-                <img src="./claude-req/alberta-pool-price.png" alt="Alberta Pool Price by Month 2025" loading="lazy" />
+                <img src="./claude-req/alberta-pool-price.png" alt="Alberta Pool Price by Month 2025" data-lightbox loading="lazy" />
               </div>
               <div class="project__body">
                 <h3>Alberta Pool Price by Month</h3>
@@ -488,24 +575,17 @@
         </div>
       </section>
 
-      <section id="model" class="section">
+      <section id="skills" class="section">
         <div class="container">
           <div class="section__head reveal">
-            <h2>Phillips Curve — Shock Dynamics</h2>
+            <h2>Skills</h2>
             <p class="lede">
-              An interactive three-equations model built for ECON 385. Adjust the Phillips curve specification,
-              expectations formation, and shock parameters — watch how output gap and inflation evolve in real time
-              across four linked diagrams.
+              An interactive map of what I bring to a client engagement and the tools I build with.
             </p>
           </div>
 
-          <div class="model-embed card reveal">
-            <iframe
-              src="./assets/phillips_curve.html"
-              title="Phillips Curve Shock Dynamics"
-              class="model-embed__frame"
-              loading="lazy"
-            ></iframe>
+          <div class="skills-graph card reveal">
+            <div id="skillsGraph" class="skills-graph__canvas" aria-label="Interactive skills graph"></div>
           </div>
         </div>
       </section>
@@ -515,10 +595,9 @@
           <div class="contact card reveal">
             <div class="contact__copy">
               <h2>Contact</h2>
-              <p class="lede">Want to talk research, data, or a project idea? Reach out.</p>
+              <p class="lede">Always happy to talk about a project, an idea, or just to connect!</p>
               <div class="contact__actions">
                 <a class="btn btn--primary" href="mailto:kalathmi.pathiraja@gmail.com" data-email-link>Email</a>
-                <a class="btn btn--ghost" href="tel:+18258883023">Call</a>
                 <a class="btn btn--ghost" href="#" data-linkedin-link>LinkedIn</a>
                 <a class="btn btn--ghost" href="#" data-github-link>GitHub</a>
               </div>
@@ -547,5 +626,10 @@
         </div>
       </section>
     </main>
+
+    <div class="lightbox" data-lightbox-root aria-hidden="true">
+      <button class="lightbox__close" type="button" data-lightbox-close aria-label="Close enlarged image">✕</button>
+      <img class="lightbox__img" data-lightbox-img src="" alt="" />
+    </div>
   </body>
 </html>

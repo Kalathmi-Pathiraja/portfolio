@@ -1952,41 +1952,11 @@ h4 {
   pointer-events: none;
 }
 
-.sheet__flip {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 22px;
-  min-height: 46px;
-  padding: 0 20px 0 16px;
-  border: 0;
-  border-radius: var(--r-pill);
-  background: var(--ink);
-  color: var(--paper);
-  font-weight: 500;
-  font-size: 15px;
-  cursor: pointer;
-  transition:
-    transform 160ms var(--ease-out),
-    background-color 200ms ease;
-}
-.sheet__flip svg,
 .back__bar .btn svg {
   width: 15px;
   height: 15px;
   fill: currentColor;
   transition: transform 400ms var(--ease-out);
-}
-.sheet__flip:active {
-  transform: scale(0.97);
-}
-@media (hover: hover) and (pointer: fine) {
-  .sheet__flip:hover {
-    background: var(--red);
-  }
-  .sheet__flip:hover svg {
-    transform: rotate(180deg);
-  }
 }
 
 .desk__back {

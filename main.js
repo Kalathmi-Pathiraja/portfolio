@@ -462,7 +462,8 @@
       easing,
       fill: "forwards",
     });
-    return a.finished.then(() => a);
+    // a backgrounded tab pauses animations; the timeout keeps a flip from getting stuck half-way
+    return Promise.race([a.finished, new Promise((r) => setTimeout(r, ms + 150))]).then(() => a);
   }
 
   function showView(f, id) {
@@ -527,7 +528,6 @@
           <h3>${f.title}</h3>
           ${f.body.map((p) => `<p>${p}</p>`).join("")}
           <div class="sheet__tags">${f.tags.map((t) => `<span>${t}</span>`).join("")}</div>
-          ${flipBtn("sheet__flip")}
         </article>
         <div class="desk__pieces">${f.pieces.map(pieceHTML).join("")}</div>
         <div class="desk__tools">

@@ -350,7 +350,7 @@
     const H = desk.clientHeight;
     const sheet = $(".sheet", desk);
     const colW = Math.max(220, (sheet ? sheet.offsetLeft : W * 0.38) - 12);
-    let y = 34;
+    let y = desk.classList.contains("desk--live") ? 80 : 34;
     let k = 0;
     pieces.forEach((el) => {
       let x;
@@ -512,6 +512,7 @@
     desk.style.setProperty("--c", f.color);
     desk.style.setProperty("--fg", f.fg || "#fff");
     desk.toggleAttribute("data-light", !!f.fg);
+    desk.classList.toggle("desk--live", !!f.views);
     desk.classList.remove("is-back");
     desk.dataset.tab = f.when;
     const flipBtn = (cls) =>
@@ -520,6 +521,7 @@
         : "";
     desk.innerHTML = `
       <div class="desk__front">
+        ${f.views ? `<div class="desk__bar">${flipBtn("desk__flip")}</div>` : ""}
         <article class="sheet">
           <div class="sheet__meta">${f.meta.map((m) => `<span>${m}</span>`).join("")}</div>
           <h3>${f.title}</h3>
@@ -556,7 +558,7 @@
     pieces.forEach(bindDrag);
     $("[data-tidy]", desk).addEventListener("click", () => layout(pieces, true));
     // a click with detail 0 came from the keyboard: only then move focus to the other side
-    $("[data-flip]", desk)?.addEventListener("click", (e) => flip(true, null, e.detail === 0));
+    $$("[data-flip]", desk).forEach((b) => b.addEventListener("click", (e) => flip(true, null, e.detail === 0)));
     $("[data-flip-back]", desk)?.addEventListener("click", (e) => flip(false, null, e.detail === 0));
     $$("[data-view-tab]", desk).forEach((b) => b.addEventListener("click", () => showView(f, b.dataset.viewTab)));
     const doLayout = () => draggable() && !desk.classList.contains("is-back") && layout(pieces, false);

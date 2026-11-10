@@ -2156,3 +2156,88 @@ h4 {
     padding: 14px 12px 6px;
   }
 }
+
+/* the way into the live side, top-left of every Live folder */
+.desk__bar {
+  position: absolute;
+  top: 18px;
+  left: clamp(18px, 2.4vw, 30px);
+  z-index: 4;
+}
+.desk--live .sheet {
+  margin-top: 54px;
+}
+.desk__flip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 18px 0 14px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  /* the thin light ring keeps the black pill visible on the black (oil shock) folder */
+  box-shadow:
+    0 0 0 1px rgba(243, 240, 232, 0.28),
+    0 10px 24px -14px rgba(0, 0, 0, 0.6);
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms ease,
+    color 200ms ease;
+}
+.desk__flip::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  animation: live-pulse 2.4s var(--ease-out) infinite;
+}
+.desk__flip svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  transition: transform 400ms var(--ease-out);
+}
+.desk__flip:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .desk__flip:hover {
+    background: var(--red);
+    color: #fff;
+  }
+  .desk__flip:hover::before {
+    background: #fff;
+  }
+  .desk__flip:hover svg {
+    transform: rotate(180deg);
+  }
+}
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(226, 53, 43, 0.55);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 9px rgba(226, 53, 43, 0);
+  }
+}
+@media (max-width: 760px) {
+  .desk__bar {
+    position: static;
+    order: -1;
+    margin-top: 16px;
+  }
+  .desk--live .sheet {
+    margin-top: 0;
+  }
+  .desk__flip {
+    width: 100%;
+    justify-content: center;
+  }
+}
